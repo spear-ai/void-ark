@@ -1,0 +1,15 @@
+target/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+.git/
+.gitignore
+Dockerfile
+.dockerignore
+docs/
+*.log
+*.tmp

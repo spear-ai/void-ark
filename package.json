@@ -1,0 +1,31 @@
+{
+  "name": "webway-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Monorepo for Redpanda cluster, binary data parser, and data generation utilities",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "lint": "yarn workspace @webway/data-parser run lint",
+    "clippy": "yarn workspace @webway/data-parser run lint",
+    "fmt": "yarn workspace @webway/data-parser run format",
+    "fmt:check": "yarn workspace @webway/data-parser run format:check",
+    "build": "yarn workspace @webway/data-parser run build",
+    "test": "yarn workspace @webway/data-parser run test",
+    "prettier:check": "prettier --check .",
+    "prettier:fix": "prettier --write ."
+  },
+  "devDependencies": {
+    "@types/node": "20.0.0",
+    "@yarnpkg/sdks": "3.2.2",
+    "knope": "0.16.2",
+    "prettier": "3.1.0",
+    "typescript": "5.8.3"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "yarn": ">=1.22.0"
+  },
+  "packageManager": "yarn@4.8.1"
+}

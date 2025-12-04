@@ -1,0 +1,117 @@
+[package]
+name = "webway-parser"
+version = "1.1.0"
+edition = "2021"
+
+[dependencies]
+rand = "0.8"
+
+# Bindgen for generating Rust bindings for C/C++ libraries
+bindgen = "0.69"
+
+# Core binary parsing
+serde = { version = "1.0", features = ["derive"] }
+bincode = "1.3"
+byteorder = "1.5"
+bytes = "1.4"
+
+# Advanced parsing
+nom = "7.1"
+deku = "0.16"
+
+# Protocol support
+prost = "0.12"
+rmp-serde = "1.1"
+
+# Utilities
+hex = "0.4"
+crc = "3.0"
+thiserror = "1.0"
+
+# Kafka/Redpanda client
+rdkafka = { version = "0.36", features = ["cmake-build", "ssl", "sasl"] }
+
+# Async runtime
+tokio = { version = "1.0", features = ["full"] }
+tokio-stream = "0.1"
+
+# Additional async utilities
+futures = "0.3"
+async-trait = "0.1"
+
+# JSON handling for Kafka messages
+serde_json = "1.0"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Database connectivity
+sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "postgres", "mysql", "chrono", "uuid", "json"] }
+tokio-postgres = "0.7"
+mysql_async = "0.33"
+
+# Database utilities
+uuid = { version = "1.0", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+
+# Optional testing dependencies (only included when features are enabled)
+testcontainers = { version = "0.15", optional = true }
+testcontainers-modules = { version = "0.3", features = ["kafka"], optional = true }
+quickcheck = { version = "1.0", optional = true }
+quickcheck_macros = { version = "1.0", optional = true }
+proptest = { version = "1.4", optional = true }
+
+# Logging
+log = "0.4"
+env_logger = "0.11"
+
+reqwest = { version = "0.12", features = ["json"] }
+prost-types = "0.12"
+
+# Confluent-compatible Schema Registry helper for Protobuf (async, raw)
+schema_registry_converter = { version = "4.5", features = ["futures", "proto_raw"] }
+
+[build-dependencies]
+prost-build = "0.12"
+
+[dev-dependencies]
+# Core testing (always available in tests)
+tokio-test = "0.4"
+mockall = "0.12"
+httpmock = "0.7"
+assert_matches = "1.5"
+pretty_assertions = "1.4"
+serial_test = "3.0"
+criterion = { version = "0.5", features = ["html_reports"] }
+fake = { version = "2.9", features = ["derive", "chrono", "uuid"] }
+rstest = "0.19"
+insta = { version = "1.34", features = ["json", "yaml"] }
+futures-test = "0.3"
+
+[features]
+default = []
+
+# Property-based testing feature
+property-tests = ["quickcheck", "quickcheck_macros", "proptest"]
+
+# Integration testing feature (requires external services)
+integration-tests = ["testcontainers", "testcontainers-modules"]
+
+# All testing features
+full-test-suite = ["property-tests", "integration-tests"]
+
+# Test coverage configuration
+[profile.coverage]
+inherits = "dev"
+debug = true
+opt-level = 0
+overflow-checks = false
+
+[[bin]]
+name = "apb19_file_parser"
+path = "src/bin/apb19_file_parser.rs"
+
+[[bin]]
+name = "apb21_file_parser"
+path = "src/bin/apb21_file_parser.rs"
