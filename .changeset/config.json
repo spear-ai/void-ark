@@ -11,11 +11,7 @@
   "commit": false,
   "fixed": [],
   "ignore": [],
-  "linked": [
-    [
-      "@webway/data-parser"
-    ]
-  ],
+  "linked": [],
   "privatePackages": {
     "version": true,
     "tag": true
