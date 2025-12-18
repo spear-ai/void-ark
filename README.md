@@ -54,5 +54,3 @@ Each package supports the following Cargo commands:
 ## 📄 License
 
 This project is licensed under the MIT License - see the individual package LICENSE files for details.
-
-.
