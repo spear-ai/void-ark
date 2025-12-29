@@ -34,6 +34,7 @@ If you dont have a filled out mirrors directory:
 
     Now you should edit the ./mirrors/mirror.toml to include what you want. For Modernization suggested changes are:
   - line 52:
+
     ```toml
     keep_latest_stables = 0
     keep_latest_betas = 0
