@@ -4,7 +4,7 @@ services:
   panamax:
     image: panamaxrs/panamax
     volumes:
-      - "./test:/mirror"
+      - "./mirrors:/mirror"
     ports:
       - 8080:8080
     command: "serve /mirror"
