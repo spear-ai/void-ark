@@ -36,32 +36,34 @@ If you dont have a filled out mirrors directory:
   - line 52:
 
     ```toml
-    keep_latest_stables = 0
+    keep_latest_stables = 1
     keep_latest_betas = 0
     keep_latest_nightlies = 0
     ```
 
-  - line 69:
-
-    ```toml
-    pinned_rust_versions = [
-        "1.87"
-    ] 
-    ```
-
-  - line 78:
+  - line 78: which linux distributions to download
 
     ```toml
     platforms_unix = [
-        "x86_64-unknown-linux-gnu",
-        "i686-unknown-linux-gnu",
+         "x86_64-unknown-linux-gnu",
+         "i686-unknown-linux-gnu",
+         "aarch64-unknown-linux-gnu",
+    ]
+    ```
+
+  - line 89: To not download windows
+
+    ```toml
+    platforms_windows = [
+    #     "x86_64-pc-windows-gnu",
+    #     "x86_64-pc-windows-msvc",
     ]
     ```
 
     Now we sync! This will ensure that we have the files we need (rustup/cargo binaries)
 
     ```bash
-    docker run --rm -it -v ./mirrors:/mirror --user $(id -u) panamaxrs/panamax sync /mirror /mirror/vendor # This syncs the mirror with the vendor folder
+    docker run --rm -it -v ./mirrors:/mirror --user $(id -u) panamaxrs/panamax sync --vendor-path /mirror/vendor /mirror # This syncs the mirror with the vendor folder
     ```
 
 #### To Run Panamax
