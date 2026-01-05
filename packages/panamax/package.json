@@ -24,7 +24,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-username/webway.git",
+    "url": "git+https://github.com/spear-ai/webway.git",
     "directory": "packages/webway-parser"
   },
   "license": "MIT",
