@@ -14,12 +14,15 @@
     "build": "yarn workspace @webway/data-parser run build",
     "test": "yarn workspace @webway/data-parser run test",
     "prettier:check": "prettier --check .",
-    "prettier:fix": "prettier --write ."
+    "prettier:fix": "prettier --write .",
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "2.29.8",
     "@types/node": "20.0.0",
     "@yarnpkg/sdks": "3.2.2",
-    "knope": "0.16.2",
     "prettier": "3.1.0",
     "typescript": "5.8.3"
   },

@@ -1,0 +1,20 @@
+{
+"$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
+  "access": "restricted",
+  "baseBranch": "main",
+  "changelog": [
+    "@changesets/cli/changelog",
+    {
+      "repo": "spear-ai/webway"
+    }
+  ],
+  "commit": false,
+  "fixed": [],
+  "ignore": [],
+  "linked": [],
+  "privatePackages": {
+    "version": true,
+    "tag": true
+  },
+  "updateInternalDependencies": "patch"
+}
