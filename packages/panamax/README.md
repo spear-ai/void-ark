@@ -22,7 +22,7 @@ If you dont have a filled out mirrors directory:
 - If you dont have a vendors directory:
 
     ```bash
-    cargo vendor --manifest-path /path/to/intended/Cargo.toml ./mirrors/vendor # Create a vendors directory to have the binaries
+    cargo vendor --manifest-path /path/to/project/Cargo.toml ./mirrors/vendor # Create a vendors directory to have the binaries
     ```
 
     Initialize the panamax files needed to host
@@ -75,4 +75,4 @@ Now the site should be hosted on localhost:8080 / this computers ip!
 
 Go to the IP of the host panamax at port 8080 (unless you changed this in the compose) on a browser http://{host-ip}:8080.
 
-Instructions to set up cargo for panamax will be shown on the site. If you need cargo then be sure to select the correct rustup distribution and initialize it first!
+Instructions to set up cargo for panamax will be shown on the site, if you need cargo then be sure to select the correct rustup distribution and initialize it first.
