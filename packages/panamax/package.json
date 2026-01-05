@@ -1,0 +1,35 @@
+{
+  "name": "@webway/panamax",
+  "version": "1.0.0",
+  "description": "Rust package and toolkit manager",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prettier:check": "prettier --check .",
+    "prettier:fix": "prettier --write .",
+    "dockerfilelint": "dockerfilelint Dockerfile"
+  },
+  "devDependencies": {
+    "@types/node": "20.0.0",
+    "dockerfilelint": "1.8.0",
+    "prettier": "3.1.0",
+    "typescript": "5.8.3"
+  },
+  "keywords": [
+    "data-parser",
+    "rust",
+    "performance",
+    "utilities",
+    "webway"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/webway.git",
+    "directory": "packages/webway-parser"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "yarn@4.8.1"
+}
