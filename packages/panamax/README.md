@@ -69,7 +69,7 @@ If you don't have a filled-out mirrors directory:
 
 Simply `docker-compose up`  (Will update when podman equivalent is available)
 
-Now the site should be hosted on http://localhost:8080 / http://{host-ip}:8080
+Now the site should be hosted on `http://localhost:8080` / `http://{host-ip}:8080`
 
 ### On Panamax Client
 
