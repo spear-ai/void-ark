@@ -5,13 +5,17 @@
   "changelog": [
     "@changesets/cli/changelog",
     {
-      "repo": "spear-ai/webway"
+      "repo": "spear-ai/spear-webway"
     }
   ],
   "commit": false,
   "fixed": [],
   "ignore": [],
-  "linked": [],
+  "linked": [
+    [
+      "@webway/panamax"
+    ]
+  ],
   "privatePackages": {
     "version": true,
     "tag": true
