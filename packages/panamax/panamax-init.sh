@@ -9,7 +9,7 @@ command -v docker >/dev/null 2>&1 || { echo "Error: docker is required but not i
 cargo vendor --manifest-path ./Cargo.toml ./mirrors/vendor
 
 # Initialize the panamax files needed for panamax
-docker run --rm -it -v ./mirrors:/mirror --user "$(id -u)" panamaxrs/panamax init /mirror
+docker run --rm -v ./mirrors:/mirror --user "$(id -u)" panamaxrs/panamax init /mirror
 
 # Overwrite mirror toml with base existing one
 cp ./mirror.toml.base ./mirrors/mirror.toml
