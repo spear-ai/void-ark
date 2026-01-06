@@ -1,5 +1,5 @@
 {
-  "name": "@webway/panamax",
+  "name": "@void-ark/panamax",
   "version": "1.0.0",
   "description": "Rust package and toolkit manager",
   "scripts": {
@@ -19,13 +19,8 @@
     "offline",
     "performance",
     "utilities",
-    "webway"
+    "void-ark"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/spear-ai/webway.git",
-    "directory": "packages/webway-parser"
-  },
   "license": "MIT",
   "engines": {
     "node": ">=20.0.0"
