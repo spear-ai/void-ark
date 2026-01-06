@@ -27,7 +27,14 @@
     "rust",
     "performance",
     "utilities",
-    "void-ark"
+    "keywords": [
+      "base-image",
+      "docker",
+      "rust",
+      "performance",
+      "utilities",
+      "void-ark"
+    ],
   ],
   "license": "MIT",
   "engines": {
