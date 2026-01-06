@@ -59,6 +59,17 @@ If you don't have a filled-out mirrors directory:
     ]
     ```
 
+    ### Using panamax-init.sh
+
+    Give permissions for the initialization script to run!
+
+    ```bash
+    chmod +x panamax-init.sh
+    ./panamax-init.sh
+    ```
+
+    Ensure to change the base_url to match the host's ip.
+
     Now we sync. This will ensure that we have the files we need (rustup/cargo binaries).
 
     ```bash
