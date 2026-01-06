@@ -88,30 +88,3 @@ fake = { version = "2.9", features = ["derive", "chrono", "uuid"] }
 rstest = "0.19"
 insta = { version = "1.34", features = ["json", "yaml"] }
 futures-test = "0.3"
-
-[features]
-default = []
-
-# Property-based testing feature
-property-tests = ["quickcheck", "quickcheck_macros", "proptest"]
-
-# Integration testing feature (requires external services)
-integration-tests = ["testcontainers", "testcontainers-modules"]
-
-# All testing features
-full-test-suite = ["property-tests", "integration-tests"]
-
-# Test coverage configuration
-[profile.coverage]
-inherits = "dev"
-debug = true
-opt-level = 0
-overflow-checks = false
-
-[[bin]]
-name = "apb19_file_parser"
-path = "src/bin/apb19_file_parser.rs"
-
-[[bin]]
-name = "apb21_file_parser"
-path = "src/bin/apb21_file_parser.rs"

@@ -107,11 +107,3 @@ inherits = "dev"
 debug = true
 opt-level = 0
 overflow-checks = false
-
-[[bin]]
-name = "apb19_file_parser"
-path = "src/bin/apb19_file_parser.rs"
-
-[[bin]]
-name = "apb21_file_parser"
-path = "src/bin/apb21_file_parser.rs"
