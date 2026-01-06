@@ -11,12 +11,7 @@
   "commit": false,
   "fixed": [],
   "ignore": [],
-  "linked": [
-    [
-      "@void-ark/panamax",
-      "@void-ark/rust-base"
-    ]
-  ],
+  "linked": [],
   "privatePackages": {
     "version": true,
     "tag": true
