@@ -59,22 +59,22 @@ If you don't have a filled-out mirrors directory:
     ]
     ```
 
-    ### Using panamax-init.sh
+- Using panamax-init.sh
 
-    Give permissions for the initialization script to run!
+  Give permissions for the initialization script to run!
 
-    ```bash
-    chmod +x panamax-init.sh
-    ./panamax-init.sh
-    ```
+  ```bash
+  chmod +x panamax-init.sh
+  ./panamax-init.sh
+  ```
 
-    Ensure to change the base_url to match the host's ip.
+  Ensure to change the base_url to match the host's ip.
 
-    Now we sync. This will ensure that we have the files we need (rustup/cargo binaries).
+  Now we sync. This will ensure that we have the files we need (rustup/cargo binaries).
 
-    ```bash
-    docker run --rm -it -v ./mirrors:/mirror --user $(id -u) panamaxrs/panamax sync --vendor-path /mirror/vendor /mirror # This syncs the mirror with the vendor folder
-    ```
+  ```bash
+  docker run --rm -it -v ./mirrors:/mirror --user $(id -u) panamaxrs/panamax sync --vendor-path /mirror/vendor /mirror # This syncs the mirror with the vendor folder
+  ```
 
 #### To Run Panamax
 
@@ -84,6 +84,6 @@ Now the site should be hosted on `http://localhost:8080` / `http://{host-ip}:808
 
 ### On Panamax Client
 
-Go to the IP of the host panamax at port 8080 (unless you changed this in the compose) on a browser http://{host-ip}:8080
+Go to the IP of the host panamax at port 8080 (unless you changed this in the compose) on a browser `http://{host-ip}:8080`
 
 Instructions to set up cargo for panamax will be shown on the site, if you need cargo then be sure to select the correct rustup distribution and initialize it first.

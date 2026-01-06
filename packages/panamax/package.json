@@ -2,22 +2,21 @@
   "name": "@webway/panamax",
   "version": "1.0.0",
   "description": "Rust package and toolkit manager",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "scripts": {
     "prettier:check": "prettier --check .",
-    "prettier:fix": "prettier --write .",
-    "dockerfilelint": "dockerfilelint Dockerfile"
+    "prettier:fix": "prettier --write ."
   },
   "devDependencies": {
-    "@types/node": "20.0.0",
+    "@types/node": "24.3.1",
     "dockerfilelint": "1.8.0",
-    "prettier": "3.1.0",
+    "prettier": "3.7.4",
     "typescript": "5.8.3"
   },
   "keywords": [
-    "data-parser",
     "rust",
+    "cargo",
+    "mirror",
+    "offline",
     "performance",
     "utilities",
     "webway"
