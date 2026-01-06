@@ -1,18 +1,18 @@
 {
-  "name": "webway-monorepo",
+  "name": "voidark-monorepo",
   "version": "1.0.0",
   "private": true,
-  "description": "Monorepo for Redpanda cluster, binary data parser, and data generation utilities",
+  "description": "Monorepo for Panamax and Rust Base packages",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "lint": "yarn workspace @webway/data-parser run lint",
-    "clippy": "yarn workspace @webway/data-parser run lint",
-    "fmt": "yarn workspace @webway/data-parser run format",
-    "fmt:check": "yarn workspace @webway/data-parser run format:check",
-    "build": "yarn workspace @webway/data-parser run build",
-    "test": "yarn workspace @webway/data-parser run test",
+    "lint": "yarn workspace @void-ark/rust-base run lint",
+    "clippy": "yarn workspace @void-ark/rust-base run lint",
+    "fmt": "yarn workspace @void-ark/rust-base run format",
+    "fmt:check": "yarn workspace @void-ark/rust-base run format:check",
+    "build": "yarn workspace @void-ark/rust-base run build",
+    "test": "yarn workspace @void-ark/rust-base run test",
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "changeset": "changeset",

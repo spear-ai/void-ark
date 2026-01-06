@@ -429,24 +429,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@webway/data-parser@workspace:packages/webway-parser":
+"@void-ark/panamax@workspace:packages/panamax":
   version: 0.0.0-use.local
-  resolution: "@webway/data-parser@workspace:packages/webway-parser"
-  dependencies:
-    "@types/node": "npm:20.0.0"
-    dockerfilelint: "npm:1.8.0"
-    prettier: "npm:3.1.0"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@webway/panamax@workspace:packages/panamax":
-  version: 0.0.0-use.local
-  resolution: "@webway/panamax@workspace:packages/panamax"
+  resolution: "@void-ark/panamax@workspace:packages/panamax"
   dependencies:
     "@types/node": "npm:24.3.1"
     dockerfilelint: "npm:1.8.0"
     prettier: "npm:3.7.4"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
+"@void-ark/rust-base@workspace:packages/rust-base":
+  version: 0.0.0-use.local
+  resolution: "@void-ark/rust-base@workspace:packages/rust-base"
+  dependencies:
+    "@types/node": "npm:20.0.0"
+    dockerfilelint: "npm:1.8.0"
+    prettier: "npm:3.1.0"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -1961,9 +1961,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webway-monorepo@workspace:.":
+"voidark-monorepo@workspace:.":
   version: 0.0.0-use.local
-  resolution: "webway-monorepo@workspace:."
+  resolution: "voidark-monorepo@workspace:."
   dependencies:
     "@changesets/cli": "npm:2.29.8"
     "@types/node": "npm:20.0.0"

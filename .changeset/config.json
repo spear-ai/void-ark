@@ -13,7 +13,8 @@
   "ignore": [],
   "linked": [
     [
-      "@webway/panamax"
+      "@void-ark/panamax",
+      "@void-ark/rust-base"
     ]
   ],
   "privatePackages": {

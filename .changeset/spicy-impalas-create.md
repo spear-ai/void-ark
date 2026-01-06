@@ -2,4 +2,4 @@
 '@webway/panamax': major
 ---
 
-Added mirror.toml.base. Added initialization script.
+Added `mirror.toml.base` and initialization script.
