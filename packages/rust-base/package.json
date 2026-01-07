@@ -23,18 +23,12 @@
     "typescript": "5.8.3"
   },
   "keywords": [
-    "data-parser",
+    "base-image",
+    "docker",
     "rust",
     "performance",
     "utilities",
-    "keywords": [
-      "base-image",
-      "docker",
-      "rust",
-      "performance",
-      "utilities",
-      "void-ark"
-    ],
+    "void-ark"
   ],
   "license": "MIT",
   "engines": {
