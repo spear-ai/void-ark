@@ -1,7 +1,7 @@
 {
-  "name": "@webway/data-parser",
+  "name": "@void-ark/rust-base",
   "version": "1.1.0",
-  "description": "High-performance data parser built with Rust",
+  "description": "Rust base image with architecture support for offline development",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -23,17 +23,13 @@
     "typescript": "5.8.3"
   },
   "keywords": [
-    "data-parser",
+    "base-image",
+    "docker",
     "rust",
     "performance",
     "utilities",
-    "webway"
+    "void-ark"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/your-username/webway.git",
-    "directory": "packages/webway-parser"
-  },
   "license": "MIT",
   "engines": {
     "node": ">=20.0.0"

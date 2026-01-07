@@ -73,3 +73,6 @@ coverage/
 # Temporary folders
 tmp/
 temp/ 
+
+# Panamax files
+packages/panamax/mirrors

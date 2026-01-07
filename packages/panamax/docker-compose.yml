@@ -1,0 +1,10 @@
+version: '3.1'
+
+services:
+  panamax:
+    image: panamaxrs/panamax
+    volumes:
+      - "./mirrors:/mirror"
+    ports:
+      - 8080:8080
+    command: "serve /mirror"
