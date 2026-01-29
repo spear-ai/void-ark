@@ -1,0 +1,8 @@
+[project]
+name = "python-base"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+# Horizon SDK requires Python 3.12
+requires-python = ">=3.12"
+dependencies = ["confluent-kafka>=2.13.0", "horizon-data-core>=4.0.1"]
