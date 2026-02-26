@@ -1,3 +1,6 @@
++---
++panamax: minor
++---
 - Adds crates for Apache Arrow, YAML, and TOML
 - Add crates wincode and rkyv to replace bincode
 - Renamed mirror.toml.base to mirror.base.toml, to keep syntax highlighting in editors looking for the .toml extension
