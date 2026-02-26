@@ -44,9 +44,9 @@ If you don't have a filled-out mirrors directory:
 
     ```toml
     platforms_unix = [
-         "x86_64-unknown-linux-gnu",
-         "i686-unknown-linux-gnu",
-         "aarch64-unknown-linux-gnu",
+          "x86_64-unknown-linux-gnu",
+          "i686-unknown-linux-gnu",
+          "aarch64-apple-darwin",
     ]
     ```
 
@@ -68,7 +68,7 @@ If you don't have a filled-out mirrors directory:
   ./panamax-init.sh
   ```
 
-  Ensure to change the base_url to match the host's ip.
+  Ensure to change the base_url to match the host's IP.
 
   Now we sync. This will ensure that we have the files we need (rustup/cargo binaries).
 

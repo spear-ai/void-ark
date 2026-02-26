@@ -75,11 +75,12 @@ keep_latest_nightlies = 0
 # Uncomment the following lines to limit which platforms get downloaded.
 # This affects both rustup-inits and components.
 
-# platforms_unix = [
-#     "arm-unknown-linux-gnueabi",
-#     "x86_64-unknown-linux-gnu",
-#     "x86_64-unknown-linux-musl",
-# ]
+platforms_unix = [
+  "x86_64-unknown-linux-gnu",
+  "x86_64-unknown-linux-musl",
+  "i686-unknown-linux-gnu",
+  "i686-unknown-linux-musl",
+]
 
 
 # Windows platforms to include in the mirror
@@ -87,8 +88,8 @@ keep_latest_nightlies = 0
 # This affects both rustup-inits and components.
 
 platforms_windows = [
-#     "x86_64-pc-windows-gnu",
-#     "x86_64-pc-windows-msvc",
+  #     "x86_64-pc-windows-gnu",
+  #     "x86_64-pc-windows-msvc",
 ]
 
 
