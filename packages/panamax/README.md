@@ -120,29 +120,32 @@ The main pipeline. Given a `Cargo.toml`, it:
 2. Runs `panamax sync` via Docker to pull the full crates.io index and all crates
 3. Prunes `mirrors/crates/` to only the packages listed in the lockfile
 4. Trims `mirrors/crates.io-index/` to match, removing empty index files and directories
-5. Packages `crates/` and `crates.io-index/` into a `.tar.gz` tarball
+5. (optional) Packages `crates/` and `crates.io-index/` into a `.tar.gz` tarball — when `--output` is omitted the trimmed `mirrors/` directory is kept as-is
 
 **Prerequisites:** `cargo`, `docker`, `python3`
 
 ```bash
-# Full environment mirror (uses root Cargo.toml by default)
+# Full environment mirror — leave mirrors/ directory intact (no tarball)
 python3 build-mirror.py
 
-# Targeted mirror from the dev/ template
+# Targeted mirror from the dev/ template, keeping mirrors/ directory
 python3 build-mirror.py --cargo-toml ./dev/Cargo.toml
+
+# Create a tarball of the trimmed mirror
+python3 build-mirror.py --output ./crates-mirror.tar.gz
 
 # Skip panamax sync if mirrors/ is already up to date
 python3 build-mirror.py --skip-sync
 
-# Custom output location
-python3 build-mirror.py --output /path/to/output.tar.gz
+# Targeted mirror with custom output tarball
+python3 build-mirror.py --cargo-toml ./dev/Cargo.toml --output /path/to/output.tar.gz
 ```
 
 | Flag | Default | Description |
 |---|---|---|
 | `--cargo-toml` | `./Cargo.toml` | Cargo.toml to resolve dependencies from |
 | `--mirrors-dir` | `./mirrors` | Path to the mirrors directory |
-| `--output` | `./crates-mirror.tar.gz` | Output tarball path |
+| `--output` | *(none)* | Output tarball path; when omitted the trimmed `mirrors/` directory is kept as-is |
 | `--skip-sync` | off | Skip the panamax sync step |
 
 > **Note:** Panamax downloads the entire crates.io registry before the prune step trims it down to your dependencies. On first run this takes significant time and disk space. Use `--skip-sync` on subsequent runs if the mirror is already populated.

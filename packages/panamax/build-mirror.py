@@ -2,7 +2,7 @@
 """
 build-mirror.py
 
-Pipeline: Cargo.toml → panamax sync → prune → trim index → tarball
+Pipeline: Cargo.toml → panamax sync → prune → trim index → [tarball]
 
 Steps:
   1. Generate Cargo.lock from the given Cargo.toml  (cargo generate-lockfile)
@@ -11,7 +11,8 @@ Steps:
   4. Prune crates/ to only the packages listed in Cargo.lock
   5. Trim crates.io-index/ to only entries with a local .crate file,
      deleting empty index files and empty directories
-  6. Package crates/ and crates.io-index/ into a .tar.gz
+  6. (optional) Package crates/ and crates.io-index/ into a .tar.gz
+     When --output is omitted the trimmed mirrors/ directory is kept as-is.
 
 Usage:
     python3 build-mirror.py --cargo-toml /path/to/Cargo.toml [options]
@@ -20,7 +21,8 @@ Options:
     --cargo-toml  <path>   Path to the Cargo.toml  (required)
     --mirrors-dir <path>   Path to the mirrors directory
                            (default: ./mirrors next to this script)
-    --output      <file>   Output tarball path  (default: ./crates-mirror.tar.gz)
+    --output      <file>   Output tarball path; when omitted no tarball is
+                           created and the mirrors/ directory is left intact
     --skip-sync            Skip the panamax sync step (useful if already synced)
 """
 
@@ -268,15 +270,15 @@ def main():
                         help="Path to Cargo.toml (default: root Cargo.toml — full environment)")
     parser.add_argument("--mirrors-dir", default=os.path.join(script_dir, "mirrors"),
                         help="Path to the mirrors directory (default: ./mirrors)")
-    parser.add_argument("--output",      default=os.path.join(script_dir, "crates-mirror.tar.gz"),
-                        help="Output tarball path (default: ./crates-mirror.tar.gz)")
+    parser.add_argument("--output",      default=None,
+                        help="Output tarball path; omit to leave mirrors/ directory intact")
     parser.add_argument("--skip-sync",   action="store_true",
                         help="Skip panamax sync (use if mirrors/ is already up to date)")
     args = parser.parse_args()
 
     cargo_toml  = os.path.abspath(args.cargo_toml)
     mirrors_dir = os.path.abspath(args.mirrors_dir)
-    output_path = os.path.abspath(args.output)
+    output_path = os.path.abspath(args.output) if args.output else None
 
     if not os.path.isfile(cargo_toml):
         print(f"ERROR: Cargo.toml not found: {cargo_toml}", file=sys.stderr)
@@ -292,7 +294,7 @@ def main():
 
     print(f"Cargo.toml  : {cargo_toml}")
     print(f"Mirrors dir : {mirrors_dir}")
-    print(f"Output      : {output_path}")
+    print(f"Output      : {output_path if output_path else '(none — mirrors/ kept as-is)'}")
     print(f"Panamax sync: {'skipped' if args.skip_sync else 'enabled'}")
 
     lock_path = generate_lockfile(cargo_toml)
@@ -305,7 +307,11 @@ def main():
 
     prune_crates(os.path.join(mirrors_dir, "crates"), needed)
     trim_index(mirrors_dir)
-    create_tarball(mirrors_dir, output_path)
+
+    if output_path:
+        create_tarball(mirrors_dir, output_path)
+    else:
+        print(f"\n[5/5] Skipping tarball — trimmed mirrors/ directory kept at {mirrors_dir}")
 
     print("\nPipeline complete.")
 
