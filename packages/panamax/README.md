@@ -44,9 +44,9 @@ If you don't have a filled-out mirrors directory:
 
     ```toml
     platforms_unix = [
-          "x86_64-unknown-linux-gnu",
-          "i686-unknown-linux-gnu",
-          "aarch64-apple-darwin",
+         "x86_64-unknown-linux-gnu",
+         "i686-unknown-linux-gnu",
+         "aarch64-unknown-linux-gnu",
     ]
     ```
 
@@ -68,7 +68,7 @@ If you don't have a filled-out mirrors directory:
   ./panamax-init.sh
   ```
 
-  Ensure to change the base_url to match the host's IP.
+  Ensure to change the base_url to match the host's ip.
 
   Now we sync. This will ensure that we have the files we need (rustup/cargo binaries).
 
@@ -87,3 +87,142 @@ Now the site should be hosted on `http://localhost:8080` / `http://{host-ip}:808
 Go to the IP of the host panamax at port 8080 (unless you changed this in the compose) on a browser `http://{host-ip}:8080`
 
 Instructions to set up cargo for panamax will be shown on the site, if you need cargo then be sure to select the correct rustup distribution and initialize it first.
+
+---
+
+## Mirror Management Scripts
+
+Three Python scripts (no external dependencies beyond the standard library) are provided to build, trim, and merge the mirror content.
+
+### Directory Layout
+
+```
+panamax/
+├── Cargo.toml          # Full environment — all crates for the standard setup
+├── build-mirror.py     # Main pipeline script
+├── mirrors/
+│   ├── crates/         # Downloaded .crate files
+│   ├── crates.io-index/# Crates registry index
+│   ├── trim-index.py   # Trim index to match local crates/
+│   └── merge-mirrors.py# Merge two mirrors directories together
+└── dev/
+    ├── Cargo.toml      # Editable template for targeted/custom pulls
+    └── src/lib.rs
+```
+
+---
+
+### build-mirror.py
+
+The main pipeline. Given a `Cargo.toml`, it:
+
+1. Generates a `Cargo.lock` (`cargo generate-lockfile`)
+2. Runs `panamax sync` via Docker to pull the full crates.io index and all crates
+3. Prunes `mirrors/crates/` to only the packages listed in the lockfile
+4. Trims `mirrors/crates.io-index/` to match, removing empty index files and directories
+5. Packages `crates/` and `crates.io-index/` into a `.tar.gz` tarball
+
+**Prerequisites:** `cargo`, `docker`, `python3`
+
+```bash
+# Full environment mirror (uses root Cargo.toml by default)
+python3 build-mirror.py
+
+# Targeted mirror from the dev/ template
+python3 build-mirror.py --cargo-toml ./dev/Cargo.toml
+
+# Skip panamax sync if mirrors/ is already up to date
+python3 build-mirror.py --skip-sync
+
+# Custom output location
+python3 build-mirror.py --output /path/to/output.tar.gz
+```
+
+| Flag | Default | Description |
+|---|---|---|
+| `--cargo-toml` | `./Cargo.toml` | Cargo.toml to resolve dependencies from |
+| `--mirrors-dir` | `./mirrors` | Path to the mirrors directory |
+| `--output` | `./crates-mirror.tar.gz` | Output tarball path |
+| `--skip-sync` | off | Skip the panamax sync step |
+
+> **Note:** Panamax downloads the entire crates.io registry before the prune step trims it down to your dependencies. On first run this takes significant time and disk space. Use `--skip-sync` on subsequent runs if the mirror is already populated.
+
+---
+
+### mirrors/trim-index.py
+
+Standalone script that trims `crates.io-index/` to only include version entries that have a corresponding `.crate` file in `crates/`. Useful after manually adding or removing crates from `mirrors/crates/`.
+
+```bash
+# Preview what would change without modifying anything
+python3 mirrors/trim-index.py --dry-run
+
+# Apply — trim index and delete empty index files and directories
+python3 mirrors/trim-index.py --delete-empty
+
+# Run against a different mirrors directory
+python3 mirrors/trim-index.py --mirrors-dir /path/to/mirrors --delete-empty
+```
+
+| Flag | Default | Description |
+|---|---|---|
+| `--mirrors-dir` | directory of the script | Path to the mirrors directory |
+| `--dry-run` | off | Report changes without modifying files |
+| `--delete-empty` | off | Delete index files with no remaining versions |
+
+---
+
+### mirrors/merge-mirrors.py
+
+Merges a source mirrors directory into a destination mirrors directory.
+
+- **Crate files** (`.crate`): moved (or copied) into the matching path under `dst/crates/`. Skipped if already present.
+- **Index files**: appended to the destination file if it exists, deduplicating by version. Copied in whole if the destination file does not yet exist.
+
+Destination subdirectories are created automatically as needed.
+
+```bash
+# Move crates from src into dst, merge index
+python3 mirrors/merge-mirrors.py --src /path/to/src/mirrors --dst /path/to/dst/mirrors
+
+# Preview without modifying anything
+python3 mirrors/merge-mirrors.py --src /path/to/src/mirrors --dst /path/to/dst/mirrors --dry-run
+
+# Copy instead of move
+python3 mirrors/merge-mirrors.py --src /path/to/src/mirrors --dst /path/to/dst/mirrors --copy
+```
+
+| Flag | Default | Description |
+|---|---|---|
+| `--src` | required | Source mirrors directory |
+| `--dst` | required | Destination mirrors directory |
+| `--dry-run` | off | Report changes without modifying files |
+| `--copy` | off | Copy crate files instead of moving them |
+
+---
+
+### Targeted Pulls with dev/
+
+The `dev/` directory contains a minimal `Cargo.toml` template for pulling a specific subset of crates rather than the full environment.
+
+1. Edit `dev/Cargo.toml` and add the crates you need under `[dependencies]`:
+
+    ```toml
+    [dependencies]
+    serde = { version = "1.0", features = ["derive"] }
+    tokio = { version = "1.0", features = ["full"] }
+    ```
+
+2. Run the pipeline against it:
+
+    ```bash
+    python3 build-mirror.py --cargo-toml ./dev/Cargo.toml
+    ```
+
+The resulting tarball will contain only those crates and their transitive dependencies.
+
+To build a mirror for the full standard environment, use the root `Cargo.toml` (the default):
+
+```bash
+python3 build-mirror.py
+```

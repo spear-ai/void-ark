@@ -1,0 +1,27 @@
+# dev/Cargo.toml
+#
+# Use this file to pull a targeted subset of crates into the mirror.
+# Add whatever dependencies you need below, then run:
+#
+#   python3 ../build-mirror.py --cargo-toml ./Cargo.toml --skip-sync
+#
+# For a full mirror of the standard environment, use the root Cargo.toml:
+#
+#   python3 ../build-mirror.py --cargo-toml ../Cargo.toml --skip-sync
+
+[package]
+name = "dev-mirror"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+
+# Add the crates you want to include in the mirror below.
+# Exact versions are recommended to ensure you get exactly what you expect.
+#
+# Examples:
+# serde = { version = "1.0", features = ["derive"] }
+# tokio = { version = "1.0", features = ["full"] }
+# reqwest = { version = "0.12", features = ["json"] }
+
+[dependencies]
