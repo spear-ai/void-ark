@@ -100,11 +100,12 @@ Three Python scripts (no external dependencies beyond the standard library) are 
 panamax/
 ├── Cargo.toml          # Full environment — all crates for the standard setup
 ├── build-mirror.py     # Main pipeline script
-├── mirrors/
-│   ├── crates/         # Downloaded .crate files
-│   ├── crates.io-index/# Crates registry index
+├── scripts/
 │   ├── trim-index.py   # Trim index to match local crates/
 │   └── merge-mirrors.py# Merge two mirrors directories together
+├── mirrors/
+│   ├── crates/         # Downloaded .crate files
+│   └── crates.io-index/# Crates registry index
 └── dev/
     ├── Cargo.toml      # Editable template for targeted/custom pulls
     └── src/lib.rs
@@ -152,19 +153,19 @@ python3 build-mirror.py --cargo-toml ./dev/Cargo.toml --output /path/to/output.t
 
 ---
 
-### mirrors/trim-index.py
+### scripts/trim-index.py
 
 Standalone script that trims `crates.io-index/` to only include version entries that have a corresponding `.crate` file in `crates/`. Useful after manually adding or removing crates from `mirrors/crates/`.
 
 ```bash
 # Preview what would change without modifying anything
-python3 mirrors/trim-index.py --dry-run
+python3 scripts/trim-index.py --dry-run
 
 # Apply — trim index and delete empty index files and directories
-python3 mirrors/trim-index.py --delete-empty
+python3 scripts/trim-index.py --delete-empty
 
 # Run against a different mirrors directory
-python3 mirrors/trim-index.py --mirrors-dir /path/to/mirrors --delete-empty
+python3 scripts/trim-index.py --mirrors-dir /path/to/mirrors --delete-empty
 ```
 
 | Flag | Default | Description |
@@ -175,7 +176,7 @@ python3 mirrors/trim-index.py --mirrors-dir /path/to/mirrors --delete-empty
 
 ---
 
-### mirrors/merge-mirrors.py
+### scripts/merge-mirrors.py
 
 Merges a source mirrors directory into a destination mirrors directory.
 
@@ -186,13 +187,13 @@ Destination subdirectories are created automatically as needed.
 
 ```bash
 # Move crates from src into dst, merge index
-python3 mirrors/merge-mirrors.py --src /path/to/src/mirrors --dst /path/to/dst/mirrors
+python3 scripts/merge-mirrors.py --src /path/to/src/mirrors --dst /path/to/dst/mirrors
 
 # Preview without modifying anything
-python3 mirrors/merge-mirrors.py --src /path/to/src/mirrors --dst /path/to/dst/mirrors --dry-run
+python3 scripts/merge-mirrors.py --src /path/to/src/mirrors --dst /path/to/dst/mirrors --dry-run
 
 # Copy instead of move
-python3 mirrors/merge-mirrors.py --src /path/to/src/mirrors --dst /path/to/dst/mirrors --copy
+python3 scripts/merge-mirrors.py --src /path/to/src/mirrors --dst /path/to/dst/mirrors --copy
 ```
 
 | Flag | Default | Description |
