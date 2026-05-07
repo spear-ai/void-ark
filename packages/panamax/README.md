@@ -96,7 +96,7 @@ Three Python scripts (no external dependencies beyond the standard library) are 
 
 ### Directory Layout
 
-```
+```text
 panamax/
 ├── Cargo.toml          # Full environment — all crates for the standard setup
 ├── build-mirror.py     # Main pipeline script
