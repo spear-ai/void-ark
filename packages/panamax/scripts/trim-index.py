@@ -173,14 +173,15 @@ def main():
     for root, dirs, files in os.walk(index_dir, topdown=False):
         if root == index_dir:
             continue
-        try:
-            os.rmdir(root)  # only succeeds if directory is empty
-            deleted_dirs += 1
-            if args.dry_run:
-                rel = os.path.relpath(root, mirrors_dir)
-                print(f"  {rel}: would delete empty dir")
-        except OSError:
-            pass  # not empty, leave it
+        if args.dry_run:
+            rel = os.path.relpath(root, mirrors_dir)
+            print(f"  {rel}: would delete empty dir")
+        else:
+            try:
+                os.rmdir(root)  # only succeeds if directory is empty
+                deleted_dirs += 1
+            except OSError:
+                pass  # not empty, leave it
 
     verb = "Would" if args.dry_run else "Did"
     print(
