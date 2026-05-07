@@ -27,6 +27,7 @@ SKIP_DIRS = {".git"}
 # ---------------------------------------------------------------------------
 
 def merge_crates(src_crates, dst_crates, dry_run, copy):
+    """Move (or copy) .crate files from src into dst, skipping any that already exist."""
     moved = skipped = 0
 
     for root, dirs, files in os.walk(src_crates):
@@ -82,6 +83,7 @@ def load_versions(path):
 
 
 def merge_index(src_index, dst_index, dry_run):
+    """Merge src index files into dst, appending new versions and deduplicating by version."""
     created = appended = skipped = 0
 
     for root, dirs, files in os.walk(src_index):
@@ -130,6 +132,7 @@ def merge_index(src_index, dst_index, dry_run):
 # ---------------------------------------------------------------------------
 
 def main():
+    """Parse arguments and merge a source mirrors directory into a destination."""
     parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,

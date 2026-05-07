@@ -113,6 +113,7 @@ def trim_index_file(abs_path, prefix, crate_name, crates_dir, dry_run, delete_em
 
 
 def main():
+    """Parse arguments and trim the crates.io-index to match local crates/."""
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument(
         "--mirrors-dir",

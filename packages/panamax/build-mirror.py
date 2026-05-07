@@ -63,6 +63,7 @@ def crate_prefix(name):
 # ---------------------------------------------------------------------------
 
 def generate_lockfile(cargo_toml):
+    """Run cargo generate-lockfile and return the path to the resulting Cargo.lock."""
     cargo_dir = os.path.dirname(cargo_toml)
     lock_path = os.path.join(cargo_dir, "Cargo.lock")
     print(f"\n[1/5] Generating Cargo.lock in {cargo_dir}")
@@ -100,6 +101,7 @@ def parse_lockfile(lock_path):
 # ---------------------------------------------------------------------------
 
 def panamax_sync(mirrors_dir):
+    """Pull the full crates.io index and crate files into mirrors_dir via Docker."""
     print(f"\n[2/5] Running panamax sync  (this may take a long time)")
     run([
         "docker", "run", "--rm",
@@ -158,6 +160,7 @@ SKIP_INDEX_DIRS  = {".git"}
 
 
 def get_available_versions(crates_dir, prefix, crate_name):
+    """Return the set of versions present on disk for a given crate."""
     crate_path = os.path.join(crates_dir, prefix, crate_name)
     if not os.path.isdir(crate_path):
         return set()
@@ -170,6 +173,7 @@ def get_available_versions(crates_dir, prefix, crate_name):
 
 
 def trim_index(mirrors_dir):
+    """Remove index entries and empty files/dirs for crates not present in crates/."""
     print(f"\n[4/5] Trimming crates.io-index")
     index_dir  = os.path.join(mirrors_dir, "crates.io-index")
     crates_dir = os.path.join(mirrors_dir, "crates")
@@ -245,6 +249,7 @@ def trim_index(mirrors_dir):
 # ---------------------------------------------------------------------------
 
 def create_tarball(mirrors_dir, output_path):
+    """Package crates/ and crates.io-index/ from mirrors_dir into a .tar.gz at output_path."""
     print(f"\n[5/5] Creating tarball: {output_path}")
     with tarfile.open(output_path, "w:gz") as tar:
         for name in ("crates", "crates.io-index"):
@@ -260,6 +265,7 @@ def create_tarball(mirrors_dir, output_path):
 # ---------------------------------------------------------------------------
 
 def main():
+    """Parse arguments and run the full mirror build pipeline."""
     parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
