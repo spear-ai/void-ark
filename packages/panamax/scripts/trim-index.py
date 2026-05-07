@@ -117,8 +117,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument(
         "--mirrors-dir",
-        default=os.path.dirname(os.path.abspath(__file__)),
-        help="Path to the mirrors directory (default: directory containing this script)",
+        default=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "mirrors"),
+        help="Path to the mirrors directory (default: ../mirrors relative to this script)",
     )
     parser.add_argument(
         "--dry-run",
