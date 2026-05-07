@@ -170,7 +170,7 @@ python3 scripts/trim-index.py --mirrors-dir /path/to/mirrors --delete-empty
 
 | Flag | Default | Description |
 |---|---|---|
-| `--mirrors-dir` | directory of the script | Path to the mirrors directory |
+| `--mirrors-dir` | `../mirrors` (relative to `scripts/`) | Path to the mirrors directory |
 | `--dry-run` | off | Report changes without modifying files |
 | `--delete-empty` | off | Delete index files with no remaining versions |
 
