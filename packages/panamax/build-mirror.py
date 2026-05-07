@@ -310,6 +310,11 @@ def main():
         panamax_sync(mirrors_dir)
     else:
         print("\n[2/5] Skipping panamax sync (--skip-sync)")
+        for subdir in ("crates", "crates.io-index"):
+            path = os.path.join(mirrors_dir, subdir)
+            if not os.path.isdir(path):
+                print(f"ERROR: required directory not found: {path}", file=sys.stderr)
+                sys.exit(1)
 
     prune_crates(os.path.join(mirrors_dir, "crates"), needed)
     trim_index(mirrors_dir)
