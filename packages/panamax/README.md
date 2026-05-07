@@ -223,10 +223,18 @@ The `dev/` directory contains a minimal `Cargo.toml` template for pulling a spec
     python3 build-mirror.py --cargo-toml ./dev/Cargo.toml
     ```
 
-The resulting tarball will contain only those crates and their transitive dependencies.
-
-To build a mirror for the full standard environment, use the root `Cargo.toml` (the default):
+The trimmed `mirrors/` directory will contain only those crates and their transitive dependencies. Pass `--output` to `build-mirror.py` to also produce a tarball:
 
 ```bash
+python3 build-mirror.py --cargo-toml ./dev/Cargo.toml --output ./targeted-mirror.tar.gz
+```
+
+To build a mirror for the full standard environment, use the root `Cargo.toml` (the default). A tarball is only created when `--output` is supplied; otherwise the trimmed `mirrors/` directory is left in place:
+
+```bash
+# Leave mirrors/ in place
 python3 build-mirror.py
+
+# Package into a tarball
+python3 build-mirror.py --output ./crates-mirror.tar.gz
 ```
