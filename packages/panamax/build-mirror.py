@@ -2,12 +2,13 @@
 """
 build-mirror.py
 
-Pipeline: Cargo.toml → panamax sync → prune → trim index → [tarball]
+Pipeline: Cargo.toml → cargo vendor → panamax sync → prune → trim index → [tarball]
 
 Steps:
-  1. Generate Cargo.lock from the given Cargo.toml  (cargo generate-lockfile)
+  1. Vendor dependencies from the given Cargo.toml into mirrors/vendor/
+     (cargo vendor — also generates Cargo.lock)
   2. Parse Cargo.lock for registry crate dependencies
-  3. Run panamax sync via Docker to pull the full crates + index  (skippable)
+  3. Run panamax sync via Docker using the vendor dir to pull crates + index  (skippable)
   4. Prune crates/ to only the packages listed in Cargo.lock
   5. Trim crates.io-index/ to only entries with a local .crate file,
      deleting empty index files and empty directories
@@ -59,15 +60,17 @@ def crate_prefix(name):
 
 
 # ---------------------------------------------------------------------------
-# Step 1 – generate Cargo.lock
+# Step 1 – cargo vendor
 # ---------------------------------------------------------------------------
 
-def generate_lockfile(cargo_toml):
-    """Run cargo generate-lockfile and return the path to the resulting Cargo.lock."""
+def cargo_vendor(cargo_toml, mirrors_dir):
+    """Vendor dependencies into mirrors/vendor/ and return the path to Cargo.lock."""
     cargo_dir = os.path.dirname(cargo_toml)
+    vendor_dir = os.path.join(mirrors_dir, "vendor")
     lock_path = os.path.join(cargo_dir, "Cargo.lock")
-    print(f"\n[1/5] Generating Cargo.lock in {cargo_dir}")
-    run(["cargo", "generate-lockfile", "--manifest-path", cargo_toml])
+    print(f"\n[1/5] Vendoring dependencies into {vendor_dir}")
+    os.makedirs(mirrors_dir, exist_ok=True)
+    run(["cargo", "vendor", "--manifest-path", cargo_toml, vendor_dir])
     return lock_path
 
 
@@ -97,17 +100,35 @@ def parse_lockfile(lock_path):
 
 
 # ---------------------------------------------------------------------------
-# Step 3 – panamax sync
+# Step 3 – panamax init + sync
 # ---------------------------------------------------------------------------
+
+def panamax_init(mirrors_dir):
+    """Initialize a new panamax mirror directory via Docker, then apply mirror.base.toml."""
+    print(f"\n[2/5] Mirrors directory is uninitialized — running panamax init")
+    os.makedirs(mirrors_dir, exist_ok=True)
+    run([
+        "docker", "run", "--rm",
+        "-v", f"{mirrors_dir}:/mirror",
+        "--user", f"{os.getuid()}:{os.getgid()}",
+        "panamaxrs/panamax", "init", "/mirror",
+    ])
+    base_toml = os.path.join(os.path.dirname(os.path.abspath(__file__)), "mirror.base.toml")
+    if os.path.isfile(base_toml):
+        shutil.copy2(base_toml, os.path.join(mirrors_dir, "mirror.toml"))
+        print(f"  Applied mirror.base.toml → mirror.toml")
+
 
 def panamax_sync(mirrors_dir):
     """Pull the full crates.io index and crate files into mirrors_dir via Docker."""
+    if not os.path.isfile(os.path.join(mirrors_dir, "mirror.toml")):
+        panamax_init(mirrors_dir)
     print(f"\n[2/5] Running panamax sync  (this may take a long time)")
     run([
         "docker", "run", "--rm",
         "-v", f"{mirrors_dir}:/mirror",
         "--user", f"{os.getuid()}:{os.getgid()}",
-        "panamaxrs/panamax", "sync", "/mirror",
+        "panamaxrs/panamax", "sync", "--vendor-path", "/mirror/vendor", "/mirror",
     ])
 
 
@@ -303,7 +324,7 @@ def main():
     print(f"Output      : {output_path if output_path else '(none — mirrors/ kept as-is)'}")
     print(f"Panamax sync: {'skipped' if args.skip_sync else 'enabled'}")
 
-    lock_path = generate_lockfile(cargo_toml)
+    lock_path = cargo_vendor(cargo_toml, mirrors_dir)
     needed    = parse_lockfile(lock_path)
 
     if not args.skip_sync:
