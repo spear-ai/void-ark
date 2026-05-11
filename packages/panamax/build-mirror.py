@@ -238,7 +238,7 @@ def trim_index(mirrors_dir):
                 total_kept += len(kept)
                 continue
 
-            has_content = any(l.strip() for l in kept)
+            has_content = any(line.strip() for line in kept)
             if not has_content:
                 os.remove(abs_path)
                 deleted_files += 1
