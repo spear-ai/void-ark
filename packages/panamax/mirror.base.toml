@@ -26,7 +26,7 @@ retries = 5
 
 
 # Perform rustup synchronization. Set this to false if you only want to mirror crates.io.
-sync = true
+sync = false
 
 
 # Whether to mirror XZ archives. These archives are more efficiently compressed
@@ -49,7 +49,7 @@ source = "https://static.rust-lang.org"
 # Setting these to 2 or higher will keep the latest version, as well as historical versions.
 # Setting these to 0 will stop Panamax from downloading the release entirely.
 # Removing the line will keep all release versions.
-keep_latest_stables = 1
+keep_latest_stables = 0
 keep_latest_betas = 0
 keep_latest_nightlies = 0
 
@@ -76,10 +76,10 @@ keep_latest_nightlies = 0
 # This affects both rustup-inits and components.
 
 platforms_unix = [
-  "x86_64-unknown-linux-gnu",
-  "x86_64-unknown-linux-musl",
-  "i686-unknown-linux-gnu",
-  "i686-unknown-linux-musl",
+#  "x86_64-unknown-linux-gnu",
+#  "x86_64-unknown-linux-musl",
+#  "i686-unknown-linux-gnu",
+#  "i686-unknown-linux-musl",
 ]
 
 
